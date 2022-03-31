@@ -32,7 +32,7 @@ Route::get('/about', 'StaticPagesController@about')->name('about');
 
 Route::get('signup', 'UserController@create')->name('signup');
 
-Route::resource('user', 'UserController');
+Route::resource('users', 'UserController');
 /*
 上面代码将等同于
 Route::get('/user', 'userController@index')->name('user.index');

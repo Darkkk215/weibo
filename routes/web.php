@@ -31,3 +31,15 @@ Route::get('/help', 'StaticPagesController@help')->name('help');
 Route::get('/about', 'StaticPagesController@about')->name('about');
 
 Route::get('signup', 'UserController@create')->name('signup');
+
+Route::resource('user', 'UserController');
+/*
+上面代码将等同于
+Route::get('/user', 'userController@index')->name('user.index');
+Route::get('/user/create', 'userController@create')->name('user.create');
+Route::get('/user/{user}', 'userController@show')->name('user.show');
+Route::post('/user', 'userController@store')->name('user.store');
+Route::get('/user/{user}/edit', 'userController@edit')->name('user.edit');
+Route::patch('/user/{user}', 'userController@update')->name('user.update');
+Route::delete('/user/{user}', 'userController@destroy')->name('user.destroy');
+*/

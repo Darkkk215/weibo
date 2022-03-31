@@ -29,3 +29,5 @@ Laravel 8中必须要先引用使用到的控制器，或者在定义路由时�
 Route::get('/', 'StaticPagesController@home')->name('home');
 Route::get('/help', 'StaticPagesController@help')->name('help');
 Route::get('/about', 'StaticPagesController@about')->name('about');
+
+Route::get('signup', 'UserController@create')->name('signup');

@@ -35,11 +35,11 @@ Route::get('signup', 'UserController@create')->name('signup');
 Route::resource('users', 'UserController');
 /*
 上面代码将等同于
-Route::get('/user', 'userController@index')->name('user.index');
-Route::get('/user/create', 'userController@create')->name('user.create');
-Route::get('/user/{user}', 'userController@show')->name('user.show');
-Route::post('/user', 'userController@store')->name('user.store');
-Route::get('/user/{user}/edit', 'userController@edit')->name('user.edit');
-Route::patch('/user/{user}', 'userController@update')->name('user.update');
-Route::delete('/user/{user}', 'userController@destroy')->name('user.destroy');
+Route::get('/users', 'userController@index')->name('users.index');
+Route::get('/users/create', 'userController@create')->name('users.create');
+Route::get('/users/{user}', 'userController@show')->name('users.show');
+Route::post('/users', 'userController@store')->name('users.store');
+Route::get('/users/{user}/edit', 'userController@edit')->name('users.edit');
+Route::patch('/users/{user}', 'userController@update')->name('users.update');
+Route::delete('/users/{user}', 'userController@destroy')->name('users.destroy');
 */

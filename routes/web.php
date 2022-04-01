@@ -35,13 +35,13 @@ Route::get('signup', 'UserController@create')->name('signup');
 Route::resource('users', 'UserController');
 /*
 上面代码将等同于
-Route::get('/users', 'userController@index')->name('users.index');
-Route::get('/users/create', 'userController@create')->name('users.create');
-Route::get('/users/{user}', 'userController@show')->name('users.show');
-Route::post('/users', 'userController@store')->name('users.store');
-Route::get('/users/{user}/edit', 'userController@edit')->name('users.edit');
-Route::patch('/users/{user}', 'userController@update')->name('users.update');
-Route::delete('/users/{user}', 'userController@destroy')->name('users.destroy');
+Route::get('/users', 'userController@index')->name('users.index');列表 显示页面
+Route::get('/users/create', 'userController@create')->name('users.create');创建/注册 显示页面
+Route::get('/users/{user}', 'userController@show')->name('users.show');个人信息 显示页面
+Route::post('/users', 'userController@store')->name('users.store');//创建用户到数据库
+Route::get('/users/{user}/edit', 'userController@edit')->name('users.edit');//编辑 显示页面
+Route::patch('/users/{user}', 'userController@update')->name('users.update');//更新用户到数据库
+Route::delete('/users/{user}', 'userController@destroy')->name('users.destroy');//删除用户到数据库
 */
 Route::get('login', 'SessionsController@create')->name('login');
 Route::post('login', 'SessionsController@store')->name('login');

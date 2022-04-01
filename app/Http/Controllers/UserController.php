@@ -8,6 +8,19 @@ use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        //除了这些动作，其他动作都使用auth过滤
+        $this->middleware('auth',[
+            'except' => ['show','create','store']
+        ]);
+
+        //未登录用户只能访问create页面
+        $this->middleware('guest', [
+            'only' => ['create']
+        ]);
+    }
+
     public function create()
     {
         return view('users.create');
@@ -15,10 +28,17 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        //这里 update 是指授权类里的 update 授权方法
+        //当前登录用户id如果和要修改的id不相等，跳403错误
+        $this->authorize('update', $user);
+
         return view('users.edit', compact('user'));
     }
 
     public function update(User $user,Request $request){
+        //这里 update 是指授权类里的 update 授权方法
+        //当前登录用户id如果和要修改的id不相等，跳403错误
+        $this->authorize('update', $user);
         $this->validate($request,[
             'name' => 'required|max:50',
             'password' => 'nullable|confirmed|min:6'//nullable可以为空

@@ -12,13 +12,19 @@ class UserController extends Controller
     {
         //除了这些动作，其他动作都使用auth过滤
         $this->middleware('auth',[
-            'except' => ['show','create','store']
+            'except' => ['index','show','create','store']
         ]);
 
         //未登录用户只能访问create页面
         $this->middleware('guest', [
             'only' => ['create']
         ]);
+    }
+
+    public function index()
+    {
+        $users = User::paginate(6);
+        return view('users.index', compact('users'));
     }
 
     public function create()

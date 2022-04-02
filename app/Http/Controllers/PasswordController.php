@@ -12,6 +12,18 @@ use Carbon\Carbon;
 
 class PasswordController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('throttle:2,1', [//1分钟只能访问2次
+            'only' => ['showLinkRequestForm']
+        ]);
+
+        $this->middleware('throttle:3,10', [
+            'only' => ['sendResetLinkEmail']
+        ]);
+    }
+
     public function showLinkRequestForm()
     {
         return view('auth.passwords.email');
@@ -68,7 +80,7 @@ class PasswordController extends Controller
         $email = $request->email;
         $token = $request->token;
         // 找回密码链接的有效时间
-        $expires = 60 * 100;
+        $expires = 60 * 10;
 
         // 2. 获取对应用户
         $user = User::where("email", $email)->first();

@@ -5,17 +5,18 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
     public function __construct()
     {
-        //除了这些动作，其他动作都使用auth过滤
+        //除了这些动作，其他动作都使用auth过滤 也就是必须登录
         $this->middleware('auth',[
-            'except' => ['index','show','create','store']
+            'except' => ['index','show','create','store', 'confirmEmail']
         ]);
 
-        //未登录用户只能访问create页面
+        //只允许未登录用户访问的页面
         $this->middleware('guest', [
             'only' => ['create']
         ]);
@@ -75,9 +76,38 @@ class UserController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
+
+        $this->sendEmailConfirmationTo($user);
+        session()->flash('success', '验证邮件已发送到你的注册邮箱上，请注意查收。');
+        return redirect('/');
+
+    }
+
+    protected function sendEmailConfirmationTo($user)
+    {
+        $view = 'emails.confirm';
+        $data = compact('user');
+        $from = 'summer@example.com';
+        $name = 'Summer';
+        $to = $user->email;
+        $subject = "感谢注册 Weibo 应用！请确认你的邮箱。";
+
+        Mail::send($view, $data, function ($message) use ($from, $name, $to, $subject) {
+            $message->from($from, $name)->to($to)->subject($subject);
+        });
+    }
+
+    public function confirmEmail($token)
+    {
+        $user = User::where('activation_token', $token)->firstOrFail();
+
+        $user->activated = true;
+        $user->activation_token = null;
+        $user->save();
+
         Auth::login($user);
-        session()->flash('success', '注册成功~!');
-        return redirect()->route('users.show',[$user]);//route() 方法会自动获取 Model 的主键 等同于[$user->id]
+        session()->flash('success', '恭喜你，激活成功！');
+        return redirect()->route('users.show', [$user]);//route() 方法会自动获取 Model 的主键 等同于[$user->id]
     }
 
     public function show(User $user)

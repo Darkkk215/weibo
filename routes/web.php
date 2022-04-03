@@ -56,3 +56,6 @@ Route::post('password/reset',  'PasswordController@reset')->name('password.updat
 
 
 Route::resource('statuses', 'StatusesController', ['only' => ['store', 'destroy']]);
+
+Route::get('/users/{user}/followings', 'UserController@followings')->name('users.followings');
+Route::get('/users/{user}/followers', 'UserController@followers')->name('users.followers');

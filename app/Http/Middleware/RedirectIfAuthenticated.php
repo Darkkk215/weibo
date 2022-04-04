@@ -21,7 +21,7 @@ class RedirectIfAuthenticated
     {
         $guards = empty($guards) ? [null] : $guards;
 
-        foreach ($guards as $guard) {
+        foreach ($guards as $guard) {//循环用户组 auth.php配置
             if (Auth::guard($guard)->check()) {
                 $message = $request->is('signup') ? '您已注册并已登录！' : '您已登陆，无需再次操作';
                 session()->flash('info', $message);
